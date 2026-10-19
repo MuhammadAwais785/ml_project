@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.env
+.env.*
+!.env.example
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+*.log
+# Local model/data: do not commit without authorization
+backend/models/*.pkl
+backend/models/*.joblib
+backend/models/model_config.json
+data/*.csv

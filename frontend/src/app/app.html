@@ -1,0 +1,17 @@
+<main class="shell">
+<header><div class="pill">Machine learning · DevOps lab</div><h1>Colorectal Cancer Research Dashboard</h1><p>24-input prediction interface · Flask REST API · Angular</p></header>
+@if(deployedStatic){<aside class="notice"><strong>Static GitHub Pages demo.</strong> This public site is UI-only. Run Flask and Angular locally for API interactions.</aside>}
+<aside class="notice">Research/teaching prototype only — not a clinical diagnosis. Category options are placeholders until the model's original encoders are confirmed.</aside>
+<form (ngSubmit)="submit()">
+@for(section of sections;track section){<section class="section"><h2>{{section.replace('_',' ')}}</h2><div class="grid">
+@for(field of fieldsIn(section);track field.name){<label><span>{{field.label}}</span>
+@if(field.kind==='number'){<input type="number" step="any" [name]="field.name" [(ngModel)]="values[field.name]" [required]="field.required" placeholder="Enter value"/>}
+@else {<select [name]="field.name" [(ngModel)]="values[field.name]" [required]="field.required"><option [ngValue]="null">Select option</option>@for(option of field.options ?? [];track option){<option [ngValue]="option">{{option}}</option>}</select>}
+</label>}
+</div></section>}
+<button type="submit" [disabled]="loading || deployedStatic">{{loading?'Checking…':'Submit to Flask API'}}</button>
+</form>
+@if(error){<aside class="error" role="alert">{{error}}</aside>}
+@if(result){<section class="result"><h2>API response</h2>@if(result.mode==='demo'){<p class="mode">DEMO MODE — no machine learning prediction was performed.</p>}@else{<p class="prediction">Prediction: {{result.prediction}}</p>@if(result.probabilities){<p>Probabilities: {{result.probabilities.join(', ')}}</p>}}<p>{{result.disclaimer}}</p></section>}
+<footer>For educational software development only. No patient information should be submitted.</footer>
+</main>
